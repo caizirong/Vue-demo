@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>指令</title>
+    <script src="../vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <!--参数-->
+        <a v-bind:href="url">必应</a>
+
+        <!--修饰符-->
+        <form v-bind:submit.prevent="onsubmit" action="插值.html">
+            <!--<input type="text">-->
+            <input type="submit" value="submit">
+        </form>
+
+        <!--过滤器-->
+        <div v-bind:id="rawId | formatId">{{ message | capitalize}}</div>
+
+        <!--缩写-->
+        <a :href="url2">百度</a>
+        <div @click="pop">click me</div>
+    </div>
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                url: 'http://www.bing.com',
+                url2: 'http://www.baidu.com',
+                rawId: 'id',
+                message: 'capitalize'
+            },
+            methods: {
+                onsubmit: function () {
+                    alert(this.url)
+                },
+                pop: function () {
+                    alert('Good Morning');
+                }
+            },
+            filters: {
+                formatId: function (bar) {
+                    return bar.toUpperCase();
+                },
+                capitalize: function (value) {
+                    if (!value) {
+                        return '';
+                    }
+                    value = value.toString();
+                    return value.charAt(0).toUpperCase() + value.slice(1);
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

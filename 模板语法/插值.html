@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>插值</title>
+    <script src="../vue.js"></script>
+</head>
+
+<body>
+    <h1>文本表达式插值</h1>
+    <div id="app-1">
+        <p>{{ message }}</p>
+        <p v-once>一次性插值: {{ message }}</p>
+        <!--表达式-->
+        <!--不支持流程控制，条件语句-->
+        <!--不支持赋值语句-->
+        <!-- 这是语句，不是表达式 -->
+        <!--{{ var a = 1 }}-->
+        <!-- 流控制也不会生效，请使用三元表达式 -->
+        <!--{{ if (ok) { return message } }}-->
+        <h2>访问全局变量白名单</h2>
+        <p>Math.random()=> {{ Math.random()}}</p>
+        <p>new Date() =>{{new Date()}}</p>
+
+        <h2>单个表达式</h2>
+        <p>num + 1 = :{{ num + 1 }}</p>
+        <p>ok? 'YES' : 'NO'=> {{ ok? 'YES' : 'NO'}}</p>
+        <p>message.split('').reverse().join('')=> {{ message.split('').reverse().join('')}}</p>
+    </div>
+
+    <h1>大括号输出纯文本</h1>
+    <div id="app-2">
+        <p>{{ message }}</p>
+        <p>{{ message_2 }}</p>
+    </div>
+
+    <h1>输出纯html</h1>
+    <div id="app-3">
+        <p v-html="message"></p>
+    </div>
+
+    <h1>属性</h1>
+    <div id="app-4">
+        <p v-bind:id="dynamicId">Hello</p>
+        <p v-bind:id="'list-' + dynamicId">Vue!</p>
+        <button v-bind:disabled="attr">button</button>
+    </div>
+
+    <script>
+        var app1 = new Vue({
+            el: '#app-1',
+            data: {
+                message: '插值abcd efg',
+                num: 11,
+                ok: 'sure'
+            },
+
+        })
+
+        var app2 = new Vue({
+            el: '#app-2',
+            data: {
+                message: '<p>html</p>',
+                message_2: '{{<p>html</p>}}'
+            }
+        })
+
+        var app3 = new Vue({
+            el: '#app-3',
+            data: {
+                message: '<ul><li>1</li><li>2</li></ul>'
+            }
+        })
+
+        var app4 = new Vue({
+            el: '#app-4',
+            data: {
+                dynamicId: 'id',
+                attr: true
+            }
+        })
+        // console.log(document.getElementById('id'));
+        // console.log(document.getElementById('list-id'));
+    </script>
+</body>
+
+</html>
