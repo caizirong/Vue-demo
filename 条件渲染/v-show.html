@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>v-show</title>
+    <script src=../vue.js></script>
+</head>
+<body>
+    <div id="app">
+        <p>v-show是简单的切换display属性，元素始终被渲染并保留在DOM中，不支持template</p>
+        <h1 v-show="ok">Hello!</h1>
+    </div>
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                ok: true
+            }
+        })
+    </script>
+</body>
+</html>

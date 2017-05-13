@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="../vue.js"></script>
+    <style>
+        .active {
+            background-color:#afeeee;
+        }
+
+        .text-danger {
+            border: 1px solid #ff0000;
+        }
+
+        .text_danger {
+            font-size: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <div v-bind:class="{ active: isActive}">1</div>
+        <!--连字符要加引号-->
+        <div class="static" v-bind:class="{ active: isActive, 'text-danger': hasError, text_danger: hasWarn}">2</div>
+
+        <!--直接绑定给一个对象-->
+        <!--绑定到data-->
+        <div v-bind:class="classObject">3</div>
+        <!--绑定到计算属性-->
+        <div v-bind:class="classObject_2">4</div>
+
+        <!--数组语法-->
+        <!--数组里一个元素代表一个或一串类名
+            可以理解成是一个对象
+            可以和对象语法混合使用
+        -->
+        <div v-bind:class="[activeClass, errorClass]">5</div>
+        <div v-bind:class="[isActive ? activeClass : '', errorClass]">6</div> <!--始终添加errorClass-->
+    </div>
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                isActive: true,
+                error: null, // null与false功能类似
+                hasError: true,
+                hasWarn:true,
+                classObject: {
+                    active: false,
+                    'text-danger': true
+                },
+                activeClass: 'active',
+                errorClass: 'text-danger'
+            },
+            computed: {
+                classObject_2: function () {
+                    return {
+                        active: this.isActive && !this.error,
+                        'text-danger': this.error && error.type === 'fatal',
+                    }
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

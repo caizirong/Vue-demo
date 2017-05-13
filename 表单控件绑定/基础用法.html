@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="../vue.js"></script>
+</head>
+
+<body>
+    <!--文本-->
+    <div id="vm1">
+        <!--单行文本-->
+        <input type="text" v-model="message_1" placeholder="edit me">
+        <p>Message is {{ message_1 }}</p>
+
+        <!--多行文本-->
+        <span>Multiline message is:</span>
+        <p style="white-space: pre">{{ message_2 }}</p>
+        <br>
+        <textarea v-model="message_2" name="" id="" cols="30" rows="4">{{ message }}</textarea>
+
+        <br>
+        <!--复选框-->
+        <input type="checkbox" id="checkbox" v-model="checked">
+        <label for="checkbox">{{ checked }}</label>
+        <hr>
+
+        <!--多个复选框绑定到同一个数组-->
+        <input type="checkbox" id="jack" value="jack" v-model="checkNames">
+        <label for="jack">Jack</label>
+        <input type="checkbox" id="jon" value="jon" v-model="checkNames">
+        <label for="jon">Jon</label>
+        <input type="checkbox" id="allen" value="allen" v-model="checkNames">
+        <label for="allen">allen</label>
+        <br>
+        <span>{{checkNames}}</span>
+        <hr>
+
+        <!--单选按钮-->
+        <input type="radio" id="one" value="one" v-model="picked">
+        <label for="one">One</label>
+        <input type="radio" id="two" value="two" v-model="picked">
+        <label for="two">Two</label>
+        <input type="radio" id="three" value="three" v-model="picked">
+        <label for="three">Three</label>
+        <br>
+        <span>{{picked}}</span>
+        <hr>
+
+        <!--选择列表-->
+        <!--单选列表-->
+        <select name="" id="" v-model="selected">
+            <option value="">A</option>
+            <option value="">B</option>
+            <option value="">C</option>
+            <option>D</option>
+            <option>E</option>
+            <option>F</option>
+        </select>
+        <span>Selected: {{ selected }}</span>
+    </div>
+
+    <script>
+        var vm1 = new Vue({
+            el: '#vm1',
+            data: {
+                message_1: 'Hello World',
+                message_2: 'Hello Vue',
+                checked: false,
+                checkNames: [],
+                picked: '',
+                selected: null
+            }
+        })
+    </script>
+</body>
+
+</html>

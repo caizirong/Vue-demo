@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>数组更新检测</title>
+    <script src="../vue.js"></script>
+</head>
+
+<body>
+    <ul id="example-1">
+        <li v-for="item in items">
+            {{ item.message }}
+        </li>
+    </ul>
+    <script>
+        var example1 = new Vue({
+            el: '#example-1',
+            data: {
+                items: [
+                    { message: 'Foo' },
+                    { message: 'Bar' }
+                ]
+            }
+        })
+        // 变异方法：push pop unshift shift splice sort reverse
+        // 修改原数组，重新渲染
+
+        // 重塑数组： filter concat slice
+        example1.items = example1.items.filter(function (item) {
+            return item.message.match(/Foo/)
+        })
+
+        example1.items.unshift({ message: 'Jon' });
+
+        example1.items.splice(1, 1, { message: 'Snow' });
+
+        setTimeout(function () {
+            example1.items.splice(0);
+            alert('Now array.length is: ' +  example1.items.length)
+        }, 2000)
+
+        alert('Now array.length is: ' + example1.items.length)
+    </script>
+</body>
+
+</html>

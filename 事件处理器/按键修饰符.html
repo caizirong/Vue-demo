@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="../vue.js"></script>
+</head>
+
+<body>
+    <div id="vm">
+        <input v-on:keyup.enter="submit" placeholder="按下enter键">
+        <input @keyup.delete="counter-=1" placeholder="按下delete键">{{ counter }}
+    </div>
+    <script>
+        var vm = new Vue({
+            el: '#vm',
+            data: {
+                counter: 5
+            },
+            methods: {
+                submit: function () {
+                    alert('submit');
+                }
+            }
+        })
+
+        // 自定义按键修饰符别名
+        Vue.config.keyCodes.f1 = 112;
+    </script>
+</body>
+
+</html>

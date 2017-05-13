@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>监听事件</title>
+    <script src="../vue.js"></script>
+</head>
+<body>
+    <p>监听DOM事件触发js代码</p>
+    <div id="example-1">
+        <button @click="counter +=1 ">增加1</button>
+        <p>这个按钮被点击了 {{ counter}} 次</p>
+    </div>
+    <script>
+        var example1 = new Vue({
+            el: '#example-1',
+            data: {
+                counter: 0
+            },
+
+        })
+    </script>
+</body>
+</html>

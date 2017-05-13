@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>v-for</title>
+    <style>
+        .divider {
+            width: 200px;
+            height: 30px;
+            background-color: #ff0000;
+        }
+    </style>
+    <script src="../vue.js"></script>
+</head>
+
+<body>
+    <ul id="example-1">
+        <li v-for="item in items">
+            {{ item.message}}
+        </li>
+    </ul>
+    <ul id="example-2">
+        <!--可以使用of代替in-->
+        <li v-for="(item, index) of items">
+            {{ parentmessage }} - {{ index }} - {{ item.message }}
+        </li>
+    </ul>
+
+    <!--Template v-for-->
+    <ul id="example-3">
+        <template v-for="item of items">
+            <li>{{ item.message }}</li>
+            <li class="divider"></li>
+        </template>
+    </ul>
+
+    <!--v-for迭代一个对象的属性-->
+    <ul id="repeat-object" class="demo">
+        <li v-for="(value, key, index) in object">
+            {{ index }}. {{ key }} : {{ value }}
+        </li>
+    </ul>
+
+    <!--整数迭代v-for-->
+    <div id="example-5">
+        <span v-for="n of 11">{{ n }}</span>
+    </div>
+
+    <!--v-for with v-if-->
+    <!--v-for优先级高，v-if会重复运行于每个v-for循环-->
+    <!--有条件地跳过循环的执行，将v-if包装在外部-->
+    <ul id="example-6">
+        <li v-for="todo in todos" v-if="!todo.isComplete">
+            {{ todo.message }}
+        </li>
+    </ul>
+
+    <ul id="example-7" v-if="shouldRenderTodos">
+        <li v-for="todo in todos">
+            {{ todo.message }}
+        </li>
+    </ul>
+
+
+
+    <script>
+        var example1 = new Vue({
+            el: '#example-1',
+            data: {
+                items: [
+                    { message: 'Foo' },
+                    { message: 'Bar' }
+                ]
+            }
+        });
+
+        var example2 = new Vue({
+            el: '#example-2',
+            data: {
+                parentmessage: 'Foo Bar',
+                items: [
+                    { message: 'Foo' },
+                    { message: 'Bar' }
+                ]
+            }
+        });
+
+        var example3 = new Vue({
+            el: '#example-3',
+            data: {
+                items: [
+                    { message: 'Foo' },
+                    { message: 'Bar' }
+                ]
+            }
+        });
+
+        var example4 = new Vue({
+            el: '#repeat-object',
+            data: {
+                object: {
+                    FirstName: 'John',
+                    LastName: 'Doe',
+                    Age: 30
+                }
+            }
+        });
+
+        var example5 = new Vue({
+            el: '#example-5'
+        })
+
+        var example6 = new Vue({
+            el: '#example-6',
+            data: {
+                todos: [
+                    { isComplete: true, message: 'reading' },
+                    { isComplete: true, message: 'writing' },
+                    { isComplete: false, message: 'reading' }
+                ],
+            }
+        })
+
+        var example7 = new Vue({
+            el: '#example-7',
+            data: {
+                todos: [
+                    { message: 'reading' },
+                    { message: 'reading' },
+                    { message: 'reading' },
+                ],
+                shouldRenderTodos: true
+            }
+        })
+
+    </script>
+</body>
+
+</html>

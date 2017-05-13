@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="../vue.js"></script>
+</head>
+<body>
+    <div id="vm">
+        <input id="delete" @keyup.alt.67="clear">
+        <div @click.ctrl="dosome">按住ctrl点我！</div>
+    </div>
+    <script>
+        var vm = new Vue({
+            el: '#vm',
+            methods: {
+                clear: function () {
+                    var input = document.getElementById('delete');
+                    input.value = '';
+                },
+                dosome: function () {
+                    alert('hahaha真好玩..')
+                }
+            }
+        })
+
+        // do是关键字
+    </script>
+</body>
+</html>

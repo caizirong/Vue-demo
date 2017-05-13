@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="../vue.js"></script>
+</head>
+
+<body>
+    <!-- 只当事件在该元素本身（而不是子元素）触发时触发回调 -->
+    <!--典型的情况是，点击子元素的margin-->
+    <div id="example" @click.self="pop_wrap">
+        <ul @click="pop_out">
+            <!-- 阻止单击事件冒泡 -->
+            <li @click.stop="pop_in">点击，阻止冒泡</li>
+            <li @click="pop_in">点击，没有阻止冒泡</li>
+            <!-- 点击事件将只会触发一次，此时会触发.self -->
+            <li v-on:click.once="pop_in">点击只触发一次，之后的是父元素ul的事件</a>
+            <li v-on:click.once.stop="pop_in">点击只触发一次，之后的是父元素ul的事件</a>
+        </ul>
+
+        <form>
+            <label for="id-checkbox-without">Checkbox without preventDefault</label>
+            <input type="checkbox" id="id-checkbox-without" name="checkbox">
+            <br>
+            <!--可以只用修饰符，不用函数-->
+            <label for="id-checkbox" @click.prevent>Checkbox</label>
+            <input type="checkbox" id="id-checkbox" name="checkbox">
+        </form>
+
+
+
+        <!-- 提交事件不再重载页面 -->
+        <!--<form v-on:submit.prevent="onSubmit"></form>-->
+        <!-- 修饰符可以串联  -->
+        <!--<a v-on:click.stop.prevent="doThat"></a>-->
+
+        <!-- 添加事件侦听器时使用事件捕获模式 -->
+        <!--<div v-on:click.capture="doThis">...</div>-->
+
+
+    </div>
+
+
+    <script>
+        var example = new Vue({
+            el: '#example',
+            methods: {
+                pop_in: function () {
+                    alert('我是子元素的事件')
+                },
+                pop_out: function () {
+                    alert('我是父元素的事件')
+                },
+                pop_wrap: function () {
+                    alert('我是最外层div的事件')
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="../vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <!--对象语法-->
+        <div v-bind:style="{ color:activeColor, fontSize: fontSize + 'px'}">1</div>
+        <div v-bind:style="styleObject">2</div>
+        <!--与计算属性结合使用-->
+        <div v-bind:style="styleObject2">4</div>
+        
+        <!--数组语法-->
+        <div v-bind:style="[baseStyles, overridingStyles]">3</div>
+    </div>
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                activeColor: 'red',
+                fontSize: 30,
+                styleObject: {
+                    backgroundColor: 'purple',
+                    border: '1px solid yellow',
+                    fontSize: '22px'
+                },
+                baseStyles: {
+                    color: 'blue',
+                },
+                overridingStyles: {
+                    '-webkit-transform': 'rotate(10deg)'
+                }
+            },
+            computed: {
+                styleObject2: function () {
+                    return {
+                        color: this.activeColor? this.activeColor : 'gray'
+                    }    
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

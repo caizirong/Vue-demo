@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="../vue.js"></script>
+</head>
+
+<body>
+    <div id="example">
+        <button @click="say('hi')">say hi</button>
+        <button @click="say('morning')">say morning</button>
+        
+        <!--在内联语句处理器中访问原生 DOM 事件-->
+        <!--分两种情况，一种情况是绑定的处理器是一个只带参数event的函数，在标签绑定时只需要写变量名，没有传入额外参数，则不需要$event也可以访问到event，另一种是绑定的处理器要处理额外的参数，在标签绑定时以函数调用的形式闯入参数，则需要使用$event保存event-->
+        <button v-on:click="warn('Form cannot be submitted yet.', $event)">Submit</button>
+    </div>
+    <script>
+        var example = new Vue({
+            el: '#example',
+            methods: {
+                say: function (msg) {
+                    alert(msg);
+                },
+                warn: function (message, event) {
+                    if (event) event.preventDefault()
+                    alert(message)
+                    alert(event)
+
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

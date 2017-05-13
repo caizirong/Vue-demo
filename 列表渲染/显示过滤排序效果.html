@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>得到过滤排序副本显示，但不改变原数组</title>
+    <script src="../vue.js"></script>
+</head>
+
+<body>
+    <ul id="app">
+        <li v-for="n in numbers">{{ n }}</li>
+        <br>
+        <p>通过计算属性</p>
+        <li v-for="n in evenNumbers">{{ n }}</li>
+
+        <p>（嵌套的v-for）通过使用方法</p>
+        <li v-for="n in even(numbers)">{{ n }}</li>
+    </ul>
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                numbers: [1, 2, 3, 4, 5]
+            },
+            computed: {
+                evenNumbers: function () {
+                    return this.numbers.filter(function (number) {
+                        return number % 2 === 0;
+                    })
+                }
+            },
+            methods: {
+                even: function (numbers) {
+                    return numbers.filter(function (number) {
+                        return number % 2 === 0
+                    })
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
