@@ -50,17 +50,48 @@
         <span>{{picked}}</span>
         <hr>
 
-        <!--选择列表-->
+        <!--- **************选择列表 ************** -->
         <!--单选列表-->
         <select name="" id="" v-model="selected">
-            <option value="">A</option>
+            <option value="QQQ">A</option>
             <option value="">B</option>
-            <option value="">C</option>
             <option>D</option>
             <option>E</option>
             <option>F</option>
         </select>
         <span>Selected: {{ selected }}</span>
+        <hr>
+        <!--两个相同的v-model，排在前面的具有控制权-->
+        <select name="" id="" v-model="selected" multiple style="width: 50px">
+            <option>A</option>
+            <option>B</option>
+            <option>C</option>
+            <option>D</option>
+            <option>E</option>
+        </select>
+        <span>Selected: {{ selected }}</span>
+        <hr>
+
+        <select name="" id="" v-model="mul_selected" multiple style="width: 50px">
+            <option>A</option>
+            <option>B</option>
+            <option>C</option>
+            <option>D</option>
+            <option>E</option>
+        </select>
+        <span>Selected: {{ mul_selected }}</span>
+        <hr>
+
+        <!--使用v-for动态渲染-->
+        <!--绑定的是option的value值，而不是文本-->
+        <!--当value缺省时，默认value值为文本值-->
+        <select name="" id="" v-model="dynamic_selected">
+            <option v-for="option in options" v-bind:value="option.value">
+                {{ option.text }}
+            </option>
+        </select>
+        <span>{{ dynamic_selected }}</span>
+
     </div>
 
     <script>
@@ -72,7 +103,16 @@
                 checked: false,
                 checkNames: [],
                 picked: '',
-                selected: null
+                selected: null,
+                mul_selected: [],
+                dynamic_selected: 'A',
+                options: [
+                    {text: 'One', value: 'A'},
+                    {text: 'Two', value: 'B'},
+                    {text: 'Three', value: 'C'}
+                ]
+                
+                
             }
         })
     </script>

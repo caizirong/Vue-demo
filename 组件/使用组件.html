@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>组件</title>
+    <script src="../vue.js"></script>
+</head>
+
+<body>
+    <p>全局注册 Vue.component(tagName, options)</p>
+    <div id="example-1">
+        <my-component></my-component>
+    </div>
+    <div id="example-2">
+        <my-component></my-component>
+    </div>
+    <hr>
+    <p>局部注册，使用组件实例选项注册，使组件仅在另一个实例/组件的作用域中可用</p>
+    <div id="example-3">
+        <local-component></local-component>
+    </div>
+    <div id="example-4">
+        <local-component></local-component>
+    </div>
+    <hr>
+    <p>DOM模板解析说明</p>
+    <p>元素限制包裹元素，&ltul&gt&ltol&gt&lttable&gt&ltselect&gt</p>
+    <p>只能出现在内部的元素&ltoption&gt</p>
+    <table id="example-5">
+        <!--如何渲染成两列 ==已完成 -->
+        <!--尝试使用字符串模板-->
+        <tr is="my-row">
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>1</td>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>1</td>
+        </tr>
+        <hr>
+    </table>
+    <div id="example-6">
+        <p>点击一个按钮不会影响共享data的其它组件的数据</p>
+        <data-component></data-component>
+        <br>
+        <data-component></data-component>
+        <br>
+        <data-component></data-component>
+        <br>
+    </div>
+    <script>
+        // ============注册全局组件===========
+        Vue.component('my-component', {
+            template: '<div>A custom component!</div>'
+        })
+        // 初始化根实例
+        new Vue({
+            el: '#example-1',
+        });
+        new Vue({
+            el: '#example-2'
+        })
+
+        // =============局部注册=============
+        var Child = {
+            template: '<div>A custom component!</div>'
+        }
+        new Vue({
+            el: '#example-3',
+            components: {
+                'local-component': Child
+            }
+        });
+        new Vue({
+            el: '#example-4',
+            components: {
+                'local-component': Child
+            }
+        })
+
+        // ============DOM解析说明=============
+        var Row = {
+            // template能渲染便签块
+            template: '<tr><td>1</td><td>1</td></tr>'
+        }
+        new Vue({
+            el: '#example-5',
+            // data: {
+            //     row: '<td>1</td>'
+            // }
+            components: {
+                'my-row': Row
+            }
+        })
+
+        // ===========组件里的data必须是函数=======
+        // var data = { counter: 0 }
+        Vue.component('data-component', {
+            template: '<button @click="counter+=1">点了我{{ counter }}次</button>',
+            // 技术上 data 的确是一个函数了，因此 Vue 不会警告，
+            // 但是我们返回给每个组件的实例的却引用了同一个data对象
+            data: function () {
+                return { counter: 0 };
+            }
+        })
+        new Vue({
+            el: '#example-6'
+        })
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="../vue.js"></script>
+</head>
+
+<body>
+
+    <p>使用data传递数据,这种方法把模板写死了</p>
+    <ul id="vm-1">
+        <li>
+            <child-component></child-component>
+        </li>
+        <li>
+            <child-component></child-component>
+        </li>
+    </ul>
+
+    <p>通过子组件的props选项，让子组件使用父组件的数据</p>
+    <p>使用prop传递数据，同一个模板，在标签里可以改变数据</p>
+    <ul id="vm-2">
+        <li>
+            <child-component message="Hello"></child-component>
+        </li>
+        <li>
+            <child-component message="World!"></child-component>
+        </li>
+    </ul>
+
+    <p>camelCase vs. kebab-case</p>
+    <!--kebab-case in HTML-->
+    <div id="vm-3">
+        <child my-message="hello!"></child>
+    </div>
+
+    <p>动态prop</p>
+    <div id="vm-4">
+        <input type="text" v-model="parentMsg">
+        <br>
+        <!--父组件更新，子组件的prop也更新-->
+        <child :my-message="parentMsg"></child>
+    </div>
+
+    <p>字面量语法 vs 动态语法</p>
+    <p>字面量语法传递的是字符串，如果要传number，需要使用v-bind</p>
+    <div id="vm-5">
+        <comp some-prop="1"></comp>
+        <!--传递实际的 number-->
+        <comp :some-prop="1"></comp>
+    </div>
+
+    <p>单向数据流，从父到子</p>
+    <div id="vm-6">
+        <single-component1 initial-counter="aa"></single-component1>
+    </div>
+    <div id="vm-7">
+        <single-component message="hello"></single-component>
+    </div>
+
+    <script>
+        // ========不能在子组件的模板内直接引用父组件的数据=========
+        // Vue.component('child-component', {
+        //     template: '<span>{{ message }}</span>',
+        // })
+        // new Vue({
+        //     el: '#vm-1',
+        //     data: {
+        //         message: 'hello'
+        //     }
+        // })
+
+
+        // ================使用data传递数据===============
+        var data = { message: 'hello' }
+        Vue.component('child-component', {
+            template: '<span>{{ message }}</span>',
+            data: function () {   // <==== 这里data只是子组件的，不是访问父组件得到的，在父组件是访问不到message的，vm1.message === undefined
+                return data;
+            }
+        })
+        var vm1 = new Vue({
+            el: '#vm-1'
+        })
+
+
+        // ================使用prop传递数据=============
+        Vue.component('child-component', {
+            // 用props声明期待获得的数据
+            props: ['message'],   // <==== 这里data是父组件通过proops向下传递数据给子组件，相当于父组件也具有这个数据？？？
+            // 就像data一样，prop可以用在模板内
+            // 同样也可以在 vm 实例中像"this.message"这样使用
+            template: '<span>{{ message }}</span>'
+        })
+        var vm2 = new Vue({
+            el: '#vm-2',
+        })
+
+        // ================驼峰式命名prop========
+        Vue.component('child', {
+            props: ['myMessage'],
+            template: '<span>{{ myMessage}}</span>'
+        })
+        new Vue({
+            el: '#vm-3',
+        })
+        // ****动态prop****
+        new Vue({
+            el: '#vm-4',
+            data: {
+                parentMsg: 'H'
+            }
+        })
+
+        // 对象语法与动态语法，字符串和number
+        Vue.component('comp', {
+            props: ['someProp'],
+            template: '<span>{{ someProp }}</span>'
+        })
+        var vm5 = new Vue({
+            el: '#vm-5'
+        })
+        // 不该在子组件内部改变prop
+        // vm5.$props = 'changeprop'    // [Vue warn]:$props is readonly.
+
+        // ===========修改prop数据的情况=============
+        // 第一种：prop 作为初始值传入后，子组件想把它当作局部数据来用；
+        // 定义一个局部变量，并用 prop 的值初始化它：
+        Vue.component('single-component1', {
+            props: ['initialCounter'],
+            template: '<p>initialCounter "{{ counter }}"</p>',
+            data: function () {
+                return {
+                    counter: this.initialCounter
+                }
+            }
+        })
+        new Vue({
+            el: '#vm-6'
+        })
+
+        // 第二种：prop 作为初始值传入，由子组件处理成其它数据输出。
+        // 定义一个计算属性，处理 prop 的值并返回。
+        Vue.component('single-component', {
+            props: ['message'],
+            template: '<p>Computed reversed message: "{{ reversedMessage }}"</p>',
+            computed: {
+                reversedMessage: function () {
+                    return this.message.split('').reverse().join('');
+                }
+            }
+        })
+        var vm7 = new Vue({
+            el: '#vm-7',
+        })
+    </script>
+</body>
+
+</html>

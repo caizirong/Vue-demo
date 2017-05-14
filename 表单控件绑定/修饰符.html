@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="../vue.js"></script>
+</head>
+
+<body>
+    <div id="vm">
+        <p>默认情况下在input事件中同步输入值与数据</p>
+        <p>添加lazy转变为在change事件中同步</p>
+        <!--在"change"而不是"input"事件中更新-->
+        <input v-model.lazy="msg">
+        <span>{{ msg }}</span>
+
+        <P>自动将输入值转为Number类型</P>
+        <input v-model.number="age" type="number" >
+        <span>{{ age }}</span>
+
+        <p>自动过滤首尾空格</p>
+        <input type="text" v-model.trim="message">
+        <br>
+        <p>{{ message }}</p>
+    </div>
+    <script>
+        var vm = new Vue({
+            el: '#vm',
+            data: {
+                msg: '',
+                age: '21',
+                message: '',
+            }
+        })
+    </script>
+</body>
+
+</html>

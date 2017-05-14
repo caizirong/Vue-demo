@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="../vue.js"></script>
+</head>
+
+<body>
+    <div id="vm">
+        <!-- 当选中时，`picked` 为字符串 "a" -->
+        <input type="radio" v-model="picked" v-bind:value="a">
+        <label for="">{{picked}}</label>
+        <!-- `toggle` 为 true 或 false -->
+        <input type="checkbox" v-model="toggle" v-bind:true-value="a" v-bind:false-value="b">
+        <label for="">{{toggle}}</label>
+        <!-- 当选中时，`selected` 为字符串 "abc" -->
+        <select v-model="selected">
+            <!--内联对象字面量-->
+            <option v-bind:value="{number: 123}">ABC</option>
+        </select>
+        <span>{{ selected }}</span>
+    </div>
+
+    <script>
+        var vm = new Vue({
+            el: '#vm',
+            data: {
+                picked: null,
+                toggle: false,
+                selected: null,
+                a: 1,
+                b: 'falsele'
+            }
+        })
+    </script>
+</body>
+
+</html>
