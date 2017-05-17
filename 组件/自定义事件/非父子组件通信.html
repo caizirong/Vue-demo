@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="../../vue.js"></script>
+</head>
+
+<body>
+    <!-- 使用一个空的Vue实例作为中央事件总线 -->
+    <div id="app">
+        <first-component></first-component>
+        <second-component></second-component>
+    </div>
+    <script>
+        // 两个组件，非父子
+        // 通过空的Vue实例来监听
+        // 在一个组件中触发事件，用这个空实例作为对象，而不再是this了
+        Vue.component('first-component', {
+            template: '<button @click="firstEvent">点我吧</button>',
+            methods: {
+                firstEvent: function () {
+                    alert('你点到我了');
+                    bus.$emit('secondEvent'); // =======非父子间的通信，不能使用this.$emit========
+                }
+            }
+        })
+
+        Vue.component('second-component', {
+            template: '<p id="second">hi</p>',
+        })
+
+        new Vue({
+            el: '#app'
+        })
+
+        var bus = new Vue();
+        bus.$on('secondEvent', function() {
+            alert(document.getElementById('second').innerHTML)
+        })
+    </script>
+</body>
+
+</html>

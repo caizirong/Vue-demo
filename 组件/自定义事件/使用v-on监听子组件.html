@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="../../vue.js"></script>
+</head>
+
+<body>
+    <!-- 这里的逻辑是，给子组件加了自定义组件，然后子组件要把这个事件（数据）传递给父组件，父组件用v-on的方式进行监听（注意$on是用于在实例上的监听，不能用于子组件），所以要当子组件$emit触发了事件之后，父组件相应的computerTotal才会执行 -->
+    <div id="app">
+        <my-component v-on:increased="computeTotal"></my-component>
+        <my-component v-on:increased="computeTotal"></my-component>
+        <p>Total: {{ Total }}</p>
+    </div>
+
+    <script>
+        Vue.component('myComponent', {
+            template: '<button v-on:click="increase">{{ counter }}</button>',
+            data: function () {
+                return { counter: 0 }
+            },
+            methods: {
+                increase: function () {
+                    this.counter += 1;
+                    // 设置子组件在什么时候触发父组件的事件
+                    // $emit括号里的只是事件名，可以更改
+                    // 在这里是点击按钮同时把父组件的事件给触发了
+                    this.$emit('increased');
+                }
+            }
+        })
+
+        new Vue({
+            el: '#app',
+            data: {
+                Total: 0
+            },
+            methods: {
+                computeTotal: function () {
+                    return this.Total += 1
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
