@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="../vue.js"></script>
+</head>
+
+<body>
+    <!--使用v-model双向绑定，myMessage没有写死-->
+    <!--可以改，但控制台报错-->
+    <div id="prop_1">
+        <input v-model="parentMSG">
+        <child :my-message="parentMSG"></child>
+    </div>
+
+    <!--单纯地把message写在标签，不是动态的prop，看是否能通过子组件更改-->
+    <!--可以改，但控制台报错-->
+    <div id="prop_2">
+        <compare-component message="hello" :options-obj="optionsObj"></compare-component>
+    </div>
+
+    <!--动态prop-->
+    <!--用data或者计算属性可以让子组件对父组件的prop传来的数据进行操作-->
+    <!--比如转化为局部数据输出-->
+    <!--或者是处理成其他数据输出-->
+    <div id="prop_3">
+        <my-component :msg="msg" :arraylist="arraylist"></my-component>
+    </div>
+    <script>
+        //通过v-model将input中的数据绑定到父组件模板中，此时input和父组件数据是双向绑定,input数据传递给在子组件中定义的props，再将props传递给子组件中的span子元素，实时更新
+        Vue.component("child", {
+            props: {
+                myMessage: {
+                    type: String,
+                    required: true,
+                }
+            },
+            template: "<div><span>{{myMessage}}</span><button @click='clickHandle'>输入后点我看是否改变文字</button></div>",
+            methods: {
+                clickHandle: function () {
+                    this.myMessage = 'hello vue';
+                }
+            }
+        });
+        var prop_1 = new Vue({
+            el: "#prop_1",
+            data: {
+                parentMSG: ""
+            }
+        })
+
+
+        Vue.component('compare-component', {
+            props: ['message', 'opitonsObj'],
+            template: `<div><p>{{message}}</p><button @click="test">点击我查看文字是否改变</button></div>`,
+            methods: {
+                test: function () {
+                    this.message = 'Hello World!'
+                }
+            }
+        })
+
+        var prop_2 = new Vue({
+            el: '#prop_2',
+            data: {
+                // message: 'Hello Vue!',
+                optionsObj: '[1,2,3]'
+            }
+        })
+
+
+        // 子组件 child-component
+        // 父组件 my-component
+        // 在父组件的template里写的子组件
+        // 子组件可以通过data或者computed在自己的template中操作父组件prop传来的数据
+        Vue.component('child-component', {
+            props: ['msg', 'arraylist'],
+            template: `<div>
+            <p>子组件</p>
+            <p>通过methods得到的msg转化：{{ changemsg }}</p>  
+            <p>通过data得到的msg转化：{{ anothermsg }}</p>
+            <p>通过computed得到的msg转化： {{ reversedMessage }} </p>
+            <button @click="this.eventHandle">测试改变props中数据</button>
+            <p>{{this.arraylist}}</p>
+        </div>`,
+            // ****************注意上方 <p>{{ changemsg }}</p> 看是否能利用父组件的msg得到********************************
+            methods: {
+                eventHandle: function () {
+                    this.msg = 'hi';   // 没办法这样修改，msg没有改变
+                    this.arraylist.push(123)
+                    return {
+                        changemsg: this.msg   // =====无法转化赋值，这种方法没法对父组件的prop进行操作
+                    }
+                }
+            },
+            data: function () {
+                return {
+                    anothermsg: this.msg
+                }
+            },
+            computed: {
+                reversedMessage: function () {
+                    return this.msg.split('').reverse().join('');
+                }
+            }
+        })
+        // 父组件
+        Vue.component("my-component", {
+            //声明props
+            props: ["msg", "arraylist"],
+            template: `<div>
+            <p>{{msg}}</p>
+            <input
+                type="button"
+                value="测试改变props中数据"
+                @click="this.eventHandle"
+            />
+            <p>{{this.arraylist}}</p>
+            <hr/>
+            <child-component :msg="this.msg" :arraylist="this.arraylist"></child-component>
+        </div>`,
+            methods: {
+                eventHandle: function () {
+                    this.msg = "hello";  //在子组件里更改了父组件的prop，不成功
+                    this.arraylist.push(123);//应用类型的值，不警告，改变父组件的状态
+                }
+            }
+        })
+
+        prop_3 = new Vue({
+            el: "#prop_3",
+            data: {
+                msg: "这是父组件的信息",
+                arraylist: [1, 2, 3]
+            }
+        })
+    </script>
+</body>
+
+</html>
