@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="../../vue.js"></script>
+</head>
+
+<body>
+    <!-- Vue.js 允许将组件定义为一个工厂函数，动态地解析组件的定义 -->
+    <div id="app">
+        <async-example></async-example>
+    </div>
+    <script>
+        Vue.component('async-example', function (resolve, reject) {
+            setTimeout(function () {
+                resolve({
+                    template: '<div>I am async</div>'
+                })
+            }, 1000)
+        })
+        new Vue({
+            el: '#app'
+        })
+    </script>
+</body>
+
+</html>

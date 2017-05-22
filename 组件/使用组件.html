@@ -12,7 +12,8 @@
 <body>
     <p>全局注册 Vue.component(tagName, options)</p>
     <div id="example-1">
-        <my-component></my-component>
+        <!-- 自定义组件可以绑定class,相当于给了模板的root元素绑定了class -->
+        <my-component class="haha"></my-component>
     </div>
     <div id="example-2">
         <my-component></my-component>
@@ -56,7 +57,7 @@
     <script>
         // ============注册全局组件===========
         Vue.component('my-component', {
-            template: '<div>A custom component!</div>'
+            template: '<div><p>A custom component!</p></div>'
         })
         // 初始化根实例
         new Vue({

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="../../vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <my-component
+            :foo="baz"
+            :bar="qux"
+            @event-a="doThis"
+            @event-b="doThat"
+        >
+            <img slot="icon" src="img/wallhaven.jpg" alt="haha">
+            <p slot="main-text">Hello World!</p>
+        </my-component>
+    </div>
+    <script>
+        Vue.component('myComponent', {
+            props: ['foo', 'bar'],
+            template: '\
+            <div>\
+            <div>\
+            <h1>props允许外部环境传递数据给组件</h1>\
+            <h1>{{ foo }}</h1>\
+            <h2>{{ bar }}</h2>\
+            </div>\
+            <hr>\
+            <h1>Slot允许外部环境将额外的内容组合在组件中</h1>\
+            <slot name="icon"></slot>\
+            <h4>\
+            <slot name="main-text"></slot>\
+            <slot>默认slot备用内容</slot>\
+            </h4>\
+            <hr>\
+            <h1>Event允许触发外部环境的副作用</h1>\
+            <button @click="emita">1</button>\
+            <button @click="emitb">2</button>\
+            </div>\
+            ',
+            methods: {
+                emita: function () {
+                    this.$emit('event-a');
+                    console.log(this)   // VueComponent
+                },
+                emitb: function () {
+                    this.$emit('event-b');
+                },
+            }
+
+        })
+
+        new Vue({
+            el: '#app',
+            data: {
+                baz: 'Hello',
+                qux: 'Vue!'
+            },
+            methods: {
+                doThis: function () {
+                    alert('dothis')
+                },
+                doThat: function() {
+                    alert('dothat')
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

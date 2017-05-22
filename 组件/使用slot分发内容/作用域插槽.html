@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="../../vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <!-- 用作使用一个（能够传递数据到）可重用模板替换已渲染元素。-->
+        <div class="parent">
+            <child>
+                <template scope="props">
+                    <span>Hello from parent</span>
+                    <span>{{ props.text }}</span>
+                </template>
+            </child>
+        </div>
+        <hr>
+
+        <!-- 列表组件 -->
+        <my-awesome-list>
+            <template slot="item" scope="props">
+                <li class="my-fancy-item">{{ props.text }}</li>
+            </template>
+        </my-awesome-list>
+
+    </div>
+    <script>
+        Vue.component('child', {
+            template: '<div class="child">\
+            <slot text="hello from child">\
+            </slot>\
+            </div>'
+        })
+
+        // 列表组件
+        Vue.component('my-awesome-list', {
+            template: '\
+            <ul>\
+            <slot name="item"\
+                v-for="item in items"\
+                :text="item.text"\
+            >\
+            备用内容\
+            </slot>\
+            </ul>\
+            ',
+            data: function() {
+                return {
+                    items:[{text:'a'}, {text: 'b'}]
+                }
+            }
+        })
+
+        new Vue({
+            el: '#app',
+        })
+    </script>
+</body>
+</html>

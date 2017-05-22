@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="../../vue.js"></script>
+</head>
+<body>
+    <!-- 多个slot -->
+    <!-- 默认slot是匿名的没有属性，此时父组件的内容会插到这个slot上 -->
+    <!-- 没有匿名的slot，则父组件中找不到匹配的内容会被抛弃 -->
+    <!-- 匹配，就是子组件模板里的slot的属性名与父组件的slot属性相同 -->
+    <div id="app">
+        <app-layout>
+            <h1 slot="header">这里可能是一个页面标题</h1>  
+            <p>主要内容的一个段落</p>
+            <p>另一个主要段落</p>
+            <p slot="footer">这里有一些联系信息</p>
+        </app-layout>
+    </div>
+    <script>
+        Vue.component('app-layout', {
+            template:'\
+            <div class="container">\
+            <header>\
+            <slot name="header">备用内容</slot>\
+            </header>\
+            <main>\
+            <slot></slot>\
+            </main>\
+            <footer>\
+            <slot name="footer"></slot>\
+            </footer>\
+            </div>'
+        })
+        // 当把slot name="header"改为slot name = "head"，此时header部分模板渲染成<header>备用内容</header>
+
+        new Vue({
+            el: '#app'
+        })
+    </script>
+</body>
+</html>

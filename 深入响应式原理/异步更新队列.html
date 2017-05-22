@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="../vue.js"></script>
+</head>
+
+<body>
+    <div id="example">{{ message }}</div>
+    <div id="example_2">
+        <example></example>
+    </div>
+    <script>
+        Vue.component('example', {
+            template: '<button @click="updateMessage">{{ message }}</button>',
+            data: function () {
+                return {
+                    message: '没有更新'
+                }
+            },
+            methods: {
+                updateMessage: function () {
+                    this.message = '更新完成';
+                    console.log(this.$el) // <button>更新完成</button>
+                    console.log(this.$el.innerHTML) // 没有更新
+                    console.log(this.$el.textContent);  // 没有更新
+                    this.$nextTick(function () {
+                        console.log(this.$el.textContent) // => '更新完成'
+                    })
+                }
+            },
+        })
+
+        var vm = new Vue({
+            el: '#example',
+            data: {
+                message: 'Hello Vue!'
+            }
+        })
+        vm.message = 'new message' // 更改数据
+        console.log(vm.$el.textContent === 'new message') // false
+        Vue.nextTick(function () {
+            console.log(vm.$el.textContent === 'new message') // true
+        })
+
+        var vm_2 = new Vue({
+            el: '#example_2'
+        })
+    </script>
+</body>
+
+</html>

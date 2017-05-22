@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="../../vue.js"></script>
+</head>
+
+<body>
+    <!-- 让多个组件可以使用同一个挂载点，并动态切换 -->
+    <div id="app">
+        <component v-bind:is="currentView"></component>
+    </div>
+
+    <div id="vm">
+        <component :is="currentView"></component>
+    </div>
+
+    <!-- keep-alive把切换出去的组件保留在内存中，保留它的状态或避免重新渲染 -->
+    <div id="example">
+        <keep-alive>
+            <component :is="currentView">这是里面的内容</component>
+        </keep-alive>
+    </div>
+    
+    <!-- 多个条件判断的子组件 -->
+    <!--<keep-alive>
+        <comp-a v-if="a > 1"></comp-a>
+        <comp-b v-else></comp-b>
+    </keep-alive>-->
+
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                currentView: 'posts'
+
+            },
+            components: {
+                home: { template: '<div>first</div>' },
+                posts: { template: '<h1>second</h1>' },
+                archive: { template: '<h2>third</h2>' }
+
+            }
+        })
+
+        // 可以直接绑定到组件对象上
+        var Home = {
+            template: '<p>Hello Vue!</p>'
+        }
+        var vm = new Vue({
+            el: '#vm',
+            data: {
+                currentView: Home
+            }
+        })
+
+        // keep-alive
+        var Post = {
+            template: '<p>Hello World!</p>'
+        }
+        var example = new Vue({
+            el: '#example',
+            data: {
+                currentView: Post
+            }
+        })
+    </script>
+</body>
+
+</html>
